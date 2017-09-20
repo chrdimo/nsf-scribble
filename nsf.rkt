@@ -63,10 +63,9 @@ FORMAT
                         (list (decode-content (list proposal-title))
                               (decode-content (list chapter-title)))))     
   
-(define (titled-para title . content)
-  (make-multiarg-element "nsftitledpara"
-                        (list (decode-content (list title))
-                              (decode-content content))))
+(define (titled-para title)
+ (make-multiarg-element "nsftitledpara"
+                        (list (decode-content (list title)))))     
 
 
 (module reader scribble/base/reader
