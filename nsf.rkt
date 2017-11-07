@@ -51,7 +51,7 @@ FORMAT
          [names
           (case (length names)
             [(2) (string-append (car names) " and " (cadr names))]
-            [else (add-between names "     ")])])
+            [else (add-between names "   ,  ")])])
      (list names nl department nl university))))
 
 
