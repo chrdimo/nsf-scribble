@@ -2,6 +2,7 @@
 
 (require (except-in scribble/base author)
          scribble/decode
+         racket/string
          scribble/core
          (rename-in scribble/doclang [#%module-begin -#%module-begin])
          scribble/private/defaults
@@ -46,12 +47,14 @@ FORMAT
 
 (define (author names department university)
   (make-paragraph 
-   (make-style 'author null)
-   (let ([nl (make-element (make-style #f '(exact-chars)) "\\\\")]
-         [names
-          (case (length names)
-            [(2) (string-append (car names) " and " (cadr names))]
-            [else (add-between names "   ,  ")])])
+   (make-style 'author '(centered))
+   (let* ([nl (make-element (make-style #f '(exact-chars)) "\\\\")]
+          [spacing "1cm"]
+          [spaces (make-element (make-style #f '(exact-chars)) (format "\\hspace{~a}" spacing))]
+          [names
+           (case (length names)
+             [(2) (string-append (car names) " and " (cadr names))]
+             [else (add-between names spaces)])])
      (list names nl department nl university))))
 
 
