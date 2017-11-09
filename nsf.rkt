@@ -18,7 +18,7 @@
          turn-page+reset
          chapter
          titled-para
-         medskip+para)
+         medskip)
 
 
 (define ((post-process) doc)
@@ -62,8 +62,8 @@ FORMAT
 (define (turn-page+reset)
  (make-element (make-style #f '(exact-chars)) "\\nsfturnpageandreset"))
 
-(define (medskip+para)
- (make-element (make-style #f '(exact-chars)) "\\nsfpara"))
+(define (medskip)
+ (make-element (make-style #f '(exact-chars)) "\\medskip"))
 
 (define (chapter proposal-title chapter-title)
  (make-multiarg-element "nsfchapter"
