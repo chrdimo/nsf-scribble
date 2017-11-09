@@ -17,7 +17,8 @@
          author
          turn-page+reset
          chapter
-         titled-para)
+         titled-para
+         para)
 
 
 (define ((post-process) doc)
