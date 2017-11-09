@@ -61,6 +61,9 @@ FORMAT
 (define (turn-page+reset)
  (make-element (make-style #f '(exact-chars)) "\\nsfturnpageandreset"))
 
+(define (para)
+ (make-element (make-style #f '(exact-chars)) "\\nsfpara"))
+
 (define (chapter proposal-title chapter-title)
  (make-multiarg-element "nsfchapter"
                         (list (decode-content (list proposal-title))
