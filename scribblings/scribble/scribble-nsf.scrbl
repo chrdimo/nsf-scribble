@@ -2,7 +2,7 @@
 @(require (for-label scribble/nsf (only-in racket/base define) scriblib/autobib))
 
 @title{NSF Proposal Format}
-@author{Christos Dimoulas}
+@author{Christos Dimoulas and Robby Findler}
 
 @defmodulelang[scribble/nsf]{The
  @racketmodname[scribble/nsf] language is like
