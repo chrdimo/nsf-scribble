@@ -44,6 +44,16 @@ Here's some boilerplate to get you started:
   @generate-bibliography[#:sec-title "References Cited"]
 }|
 
+@defidform[page-numbers]{
+Enables page numbers. Must be used on the same
+line as @hash-lang[], with only whitespace between
+@racketmodname[scribble/nsf] and the format name, i.e.:
+
+@codeblock[#:indent 2]|{
+  #lang scribble/nsf @page-numbers
+}|
+}
+
 @defproc[(author [names (listof string?)]
                  [department content?]
                  [university content?])

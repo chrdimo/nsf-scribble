@@ -8,6 +8,7 @@
          scribble/private/defaults
          racket/list
          (for-syntax racket/base
+                     syntax/parse
                      racket/syntax))
 
 (provide (all-from-out scribble/base)
@@ -21,29 +22,52 @@
          medskip)
 
 
-(define ((post-process) doc)
-  (add-defaults doc
-                (string->bytes/utf-8 #<<FORMAT
+(define tex-prelude
+  #<<FORMAT
 \PassOptionsToPackage{usenames,dvipsnames}{color}
 \documentclass[11pt]{article}
 \usepackage[empty]{fullpage}
-\pagestyle{plain}
+\pagestyle{~a}
 \setlength{\footskip}{0.5in}
 \bibliographystyle{abbrvnat}
 FORMAT
-                                     )
-                (collection-file-path "style.tex" "scribble" "nsf")
-                null
-                #f))
+  )
+
+(define ((post-process page-numbers?) doc)
+  (add-defaults
+   doc
+   (string->bytes/utf-8 (format tex-prelude (if page-numbers? "plain" "empty")))
+   (collection-file-path "style.tex" "scribble" "nsf")
+   null
+   #f))
 
 
 (define-syntax (--#%module-begin stx)
-  (syntax-case stx ()
-    [(_ ?e ...)
+  (syntax-parse stx
+    [(_ . full-body)
+     (define options '())
+     (define body
+       (let loop ([body #'full-body])
+         (syntax-parse body
+           #:literals (page-numbers)
+           [() body]
+           [(ws:string . body)
+            #:fail-unless
+            (or (regexp-match? #rx"^[ \t]*$" (syntax-e #'ws))
+                (equal? (syntax-e #'ws) "\n"))
+            "whitespace"
+            (if (equal? (syntax-e #'ws) "\n")
+                #'body
+                (loop #'body))]
+           [(page-numbers . body)
+            (set! options (cons 'page-numbers options))
+            (loop #'body)])))
      (with-syntax ([doc (format-id stx "doc")])
        (quasisyntax/loc stx
-         (-#%module-begin doc (post-process) () ?e ...)))]))
-
+         (-#%module-begin doc
+                          (post-process #,(and (member 'page-numbers options) #t))
+                          ()
+                          #,@body)))]))
 
 
 (define (author names department university)
@@ -74,6 +98,11 @@ FORMAT
  (make-multiarg-element "nsftitledpara"
                         (list (decode-content (list title)))))     
 
+(define-syntax (page-numbers stx)
+  (raise-syntax-error #f
+                      "option must appear on the same line as `#lang scribble/nsf'"
+                      stx))
+(provide page-numbers)
 
 (module reader scribble/base/reader
 scribble/nsf
