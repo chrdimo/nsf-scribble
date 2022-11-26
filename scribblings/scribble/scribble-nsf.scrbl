@@ -1,7 +1,7 @@
 #lang scribble/manual
 @(require (for-label scribble/nsf (only-in racket/base define) scriblib/autobib))
 
-@title{NSF Proposal Format}
+@title{A Scribble Document Style for NSF Proposals}
 @author{Christos Dimoulas and Robby Findler}
 
 @defmodulelang[scribble/nsf]{The
