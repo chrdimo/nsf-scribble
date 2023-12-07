@@ -7,3 +7,6 @@
 
 (define pkg-desc "A Scribble document class for NSF proposals")
 (define pkg-authors '(chrdimo))
+
+(define license
+  'CC-BY-4.0)
