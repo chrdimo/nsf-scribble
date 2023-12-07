@@ -1,4 +1,4 @@
 #lang info
 
 (define scribblings
-  '(("scribble-nsf.scrbl")))
+  '(("scribble-nsf.scrbl" () ("Scribble Libraries"))))
